@@ -1,0 +1,354 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-3">Birdsong Level {{level}}</h1>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+    <form id = "birds" class="form"></form>
+    
+    {% for dict_item in bird_dictionary %}  
+    <audio controls><source src="/static/songs/xc{{dict_item['file_id']}}.flac" type="audio/flac"></audio> 
+        
+        <br>
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_a']}}" />
+        <label for="radio">{{dict_item['option_a']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_b']}}">
+        <label for="radio">{{dict_item['option_b']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_c']}}">
+        <label for="radio">{{dict_item['option_c']}}</label>
+        </div>
+
+        <div class ="inputGroup">
+        <input type="radio" name="bird_check" id="{{dict_item['question_id']}}" value="{{dict_item['option_d']}}">
+        <label for="radio">{{dict_item['option_d']}}</label>
+        </div>
+    
+    </form>
+
+    <br>
+    
+    <button class ="btn btn-primary" onclick="checkAnswer(name)" name="{{dict_item['question_id']}}" value="check">Check</button>
+
+    <div id="correct_{{dict_item['question_id']}}" name="correct">
+        Correct
+    </div>
+    <div id="incorrect_{{dict_item['question_id']}}" name="incorrect">
+        Incorrect
+    </div>
+
+    <br>
+    
+    {% endfor %}
+
+    <form method="POST"><br>
+
+    <button class ="btn btn-primary" name="submit" next_level="{{level + 1}}">Next level</button>
+    
+    </form>
+
+    <script>
+    
+    function checkAnswer(name) {
+
+        //Gets user value        
+        var y = document.querySelector('input[name="bird_check"]:checked').value;
+
+        //Gets ID of answer user selected
+        var r = document.querySelector('input[name="bird_check"]:checked').id;
+
+        //List of all answers
+        var answers = {
+            "qid001":	"Long-tailed Tit",
+            "qid002":	"Long-tailed Tit",
+            "qid003":	"Long-tailed Tit",
+            "qid004":	"Black-headed Gull",
+            "qid005":	"Black-headed Gull",
+            "qid006":	"Black-headed Gull",
+            "qid007":	"Common Wood Pigeon",
+            "qid008":	"Common Wood Pigeon",
+            "qid009":	"Common Wood Pigeon",
+            "qid010":	"Common Nightingale",
+            "qid011":	"Common Nightingale",
+            "qid012":	"Common Nightingale",
+            "qid013":	"Great Tit",
+            "qid014":	"Great Tit",
+            "qid015":	"Great Tit",
+            "qid016":	"Common Blackbird",
+            "qid017":	"Common Blackbird",
+            "qid018":	"Common Blackbird",
+            "qid019":	"European Nightjar",
+            "qid020":	"European Nightjar",
+            "qid021":	"European Nightjar",
+            "qid022":	"Western Jackdaw",
+            "qid023":	"Western Jackdaw",
+            "qid024":	"Western Jackdaw",
+            "qid025":	"Stock Dove",
+            "qid026":	"Stock Dove",
+            "qid027":	"Stock Dove",
+            "qid028":	"Carrion Crow",
+            "qid029":	"Carrion Crow",
+            "qid030":	"Carrion Crow",
+            "qid031":	"Rook",
+            "qid032":	"Rook",
+            "qid033":	"Rook",
+            "qid034":	"Common Cuckoo",
+            "qid035":	"Common Cuckoo",
+            "qid036":	"Common Cuckoo",
+            "qid037":	"European Robin",
+            "qid038":	"European Robin",
+            "qid039":	"European Robin",
+            "qid040":	"House Sparrow",
+            "qid041":	"House Sparrow",
+            "qid042":	"House Sparrow",
+            "qid043":	"Eurasian Magpie",
+            "qid044":	"Eurasian Magpie",
+            "qid045":	"Eurasian Magpie",
+            "qid046":	"Common Swift",
+            "qid047":	"Common Swift",
+            "qid048":	"Common Swift",
+            "qid049":	"European Goldfinch",
+            "qid050":	"European Goldfinch",
+            "qid051":	"European Goldfinch",
+            "qid052":	"European Greenfinch",
+            "qid053":	"European Greenfinch",
+            "qid054":	"European Greenfinch",
+            "qid055":	"Black Woodpecker",
+            "qid056":	"Black Woodpecker",
+            "qid057":	"Black Woodpecker",
+            "qid058":	"Barn Swallow",
+            "qid059":	"Barn Swallow",
+            "qid060":	"Barn Swallow",
+            "qid061":	"European Herring Gull",
+            "qid062":	"European Herring Gull",
+            "qid063":	"European Herring Gull",
+            "qid064":	"Grey Partridge",
+            "qid065":	"Grey Partridge",
+            "qid066":	"Grey Partridge",
+            "qid067":	"Tawny Owl",
+            "qid068":	"Tawny Owl",
+            "qid069":	"Tawny Owl",
+            "qid070":	"Song Thrush",
+            "qid071":	"Song Thrush",
+            "qid072":	"Song Thrush",
+            "qid073":	"Eurasian Treecreeper",
+            "qid074":	"Eurasian Treecreeper",
+            "qid075":	"Eurasian Treecreeper",
+            "qid076":	"Rock Dove",
+            "qid077":	"Rock Dove",
+            "qid078":	"Rock Dove",
+            "qid079":	"Northern Raven",
+            "qid080":	"Northern Raven",
+            "qid081":	"Northern Raven",
+            "qid082":	"Eurasian Blue Tit",
+            "qid083":	"Eurasian Blue Tit",
+            "qid084":	"Eurasian Blue Tit",
+            "qid085":	"Common House Martin",
+            "qid086":	"Common House Martin",
+            "qid087":	"Common House Martin",
+            "qid088":	"Common Chaffinch",
+            "qid089":	"Common Chaffinch",
+            "qid090":	"Common Chaffinch",
+            "qid091":	"European Green Woodpecker",
+            "qid092":	"European Green Woodpecker",
+            "qid093":	"European Green Woodpecker",
+            "qid094":	"Common Starling",
+            "qid095":	"Common Starling",
+            "qid096":	"Common Starling",
+            "qid097":	"Wood Sandpiper",
+            "qid098":	"Wood Sandpiper",
+            "qid099":	"Wood Sandpiper",
+            "qid100":	"Redwing",
+            "qid101":	"Redwing",
+            "qid102":	"Redwing",
+            "qid103":	"Canada Goose",
+            "qid104":	"Canada Goose",
+            "qid105":	"Canada Goose",
+            "qid106":	"Corn Bunting",
+            "qid107":	"Corn Bunting",
+            "qid108":	"Corn Bunting",
+            "qid109":	"Common Reed Bunting",
+            "qid110":	"Common Reed Bunting",
+            "qid111":	"Common Reed Bunting",
+            "qid112":	"Common Moorhen",
+            "qid113":	"Common Moorhen",
+            "qid114":	"Common Moorhen",
+            "qid115":	"Willow Tit",
+            "qid116":	"Willow Tit",
+            "qid117":	"Willow Tit",
+            "qid118":	"Eurasian Blackcap",
+            "qid119":	"Eurasian Blackcap",
+            "qid120":	"Eurasian Blackcap",
+            "qid121":	"Lesser Whitethroat",
+            "qid122":	"Lesser Whitethroat",
+            "qid123":	"Lesser Whitethroat",
+            "qid124":	"Dunlin",
+            "qid125":	"Dunlin",
+            "qid126":	"Dunlin",
+            "qid127":	"Great Spotted Woodpecker",
+            "qid128":	"Great Spotted Woodpecker",
+            "qid129":	"Great Spotted Woodpecker",
+            "qid130":	"African Pied Wagtail",
+            "qid131":	"African Pied Wagtail",
+            "qid132":	"African Pied Wagtail",
+            "qid133":	"Eurasian Tree Sparrow",
+            "qid134":	"Eurasian Tree Sparrow",
+            "qid135":	"Eurasian Tree Sparrow",
+            "qid136":	"European Honey Buzzard",
+            "qid137":	"European Honey Buzzard",
+            "qid138":	"European Honey Buzzard",
+            "qid139":	"European Golden Plover",
+            "qid140":	"European Golden Plover",
+            "qid141":	"European Golden Plover",
+            "qid142":	"Grey Plover",
+            "qid143":	"Grey Plover",
+            "qid144":	"Grey Plover",
+            "qid145":	"Eurasian Collared Dove",
+            "qid146":	"Eurasian Collared Dove",
+            "qid147":	"Eurasian Collared Dove",
+            "qid148":	"Garden Warbler",
+            "qid149":	"Garden Warbler",
+            "qid150":	"Garden Warbler",
+            "qid151":	"Common Redshank",
+            "qid152":	"Common Redshank",
+            "qid153":	"Common Redshank",
+            "qid154":	"Eurasian Skylark",
+            "qid155":	"Eurasian Skylark",
+            "qid156":	"Eurasian Skylark",
+            "qid157":	"Meadow Pipit",
+            "qid158":	"Meadow Pipit",
+            "qid159":	"Meadow Pipit",
+            "qid160":	"Tree Pipit",
+            "qid161":	"Tree Pipit",
+            "qid162":	"Tree Pipit",
+            "qid163":	"Yellowhammer",
+            "qid164":	"Yellowhammer",
+            "qid165":	"Yellowhammer",
+            "qid166":	"Eurasian Coot",
+            "qid167":	"Eurasian Coot",
+            "qid168":	"Eurasian Coot",
+            "qid169":	"Common Snipe",
+            "qid170":	"Common Snipe",
+            "qid171":	"Common Snipe",
+            "qid172":	"Coal Tit",
+            "qid173":	"Coal Tit",
+            "qid174":	"Coal Tit",
+            "qid175":	"Common Pheasant",
+            "qid176":	"Common Pheasant",
+            "qid177":	"Common Pheasant",
+            "qid178":	"Eurasian Nuthatch",
+            "qid179":	"Eurasian Nuthatch",
+            "qid180":	"Eurasian Nuthatch",
+            "qid181":	"European Turtle Dove",
+            "qid182":	"European Turtle Dove",
+            "qid183":	"European Turtle Dove",
+            "qid184":	"Common Whitethroat",
+            "qid185":	"Common Whitethroat",
+            "qid186":	"Common Whitethroat",
+            "qid187":	"Eurasian Wren",
+            "qid188":	"Eurasian Wren",
+            "qid189":	"Eurasian Wren",
+            "qid190":	"Eurasian Reed Warbler",
+            "qid191":	"Eurasian Reed Warbler",
+            "qid192":	"Eurasian Reed Warbler",
+            "qid193":	"Eurasian Jay",
+            "qid194":	"Eurasian Jay",
+            "qid195":	"Eurasian Jay",
+            "qid196":	"Red-throated Loon",
+            "qid197":	"Red-throated Loon",
+            "qid198":	"Red-throated Loon",
+            "qid199":	"Eurasian Oystercatcher",
+            "qid200":	"Eurasian Oystercatcher",
+            "qid201":	"Eurasian Oystercatcher",
+            "qid202":	"Red Crossbill",
+            "qid203":	"Red Crossbill",
+            "qid204":	"Red Crossbill",
+            "qid205":	"European Bee-eater",
+            "qid206":	"European Bee-eater",
+            "qid207":	"European Bee-eater",
+            "qid208":	"Common Redstart",
+            "qid209":	"Common Redstart",
+            "qid210":	"Common Redstart",
+            "qid211":	"Common Chiffchaff",
+            "qid212":	"Common Chiffchaff",
+            "qid213":	"Common Chiffchaff",
+            "qid214":	"Goldcrest",
+            "qid215":	"Goldcrest",
+            "qid216":	"Goldcrest",
+            "qid217":	"Marsh Warbler",
+            "qid218":	"Marsh Warbler",
+            "qid219":	"Marsh Warbler",
+            "qid220":	"Sedge Warbler",
+            "qid221":	"Sedge Warbler",
+            "qid222":	"Sedge Warbler",
+            "qid223":	"Eurasian Wryneck",
+            "qid224":	"Eurasian Wryneck",
+            "qid225":	"Eurasian Wryneck",
+            "qid226":	"River Warbler",
+            "qid227":	"River Warbler",
+            "qid228":	"River Warbler",
+            "qid229":	"Western Yellow Wagtail",
+            "qid230":	"Western Yellow Wagtail",
+            "qid231":	"Western Yellow Wagtail",
+            "qid232":	"Wood Warbler",
+            "qid233":	"Wood Warbler",
+            "qid234":	"Wood Warbler",
+            "qid235":	"Willow Warbler",
+            "qid236":	"Willow Warbler",
+            "qid237":	"Willow Warbler",
+            "qid238":	"Marsh Tit",
+            "qid239":	"Marsh Tit",
+            "qid240":	"Marsh Tit",
+            "qid241":	"Dunnock",
+            "qid242":	"Dunnock",
+            "qid243":	"Dunnock",
+            "qid244":	"Eurasian Bullfinch",
+            "qid245":	"Eurasian Bullfinch",
+            "qid246":	"Eurasian Bullfinch",
+            "qid247":	"Common Redpoll",
+            "qid248":	"Common Redpoll",
+            "qid249":	"Common Redpoll",
+            "qid250":	"Willow Ptarmigan",
+            "qid251":	"Willow Ptarmigan",
+            "qid252":	"Willow Ptarmigan",
+            "qid253":	"Common Linnet",
+            "qid254":	"Common Linnet",
+            "qid255":	"Common Linnet",
+            "qid256":	"Spotted Flycatcher",
+            "qid257":	"Spotted Flycatcher",
+            "qid258":	"Spotted Flycatcher",
+            "qid259":	"Eurasian Golden Oriole",
+            "qid260":	"Eurasian Golden Oriole",
+            "qid261":	"Eurasian Golden Oriole",
+            "qid262":	"Northern Lapwing",
+            "qid263":	"Northern Lapwing",
+            "qid264":	"Northern Lapwing"
+        }
+
+        //Gets correct answer for question ID
+        var d = answers[r]
+
+        //Compares user answer to the actual answer and returns message if it is wrong/right
+        if (y == d) {
+            document.getElementById('correct_'+name).style.display = "block";
+            document.getElementById('incorrect_'+name).style.display = "none";
+
+        }
+        else {
+            document.getElementById('incorrect_'+name).style.display = "block";
+            document.getElementById('correct_'+name).style.display = "none";
+
+        }
+    }
+
+    </script>
+
+{% endblock %}
