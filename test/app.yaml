@@ -1,1 +1,4 @@
 runtime: python37
+
+beta_settings:
+    cloud_sql_instances: fluted-set-279218:europe-west2:birds
